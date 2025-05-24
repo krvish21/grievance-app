@@ -1,21 +1,25 @@
 import { createClient } from '@supabase/supabase-js';
-import { resend } from 'resend'; // example notification
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
 
 export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
   const { message } = req.body;
-  const { data, error } = await supabase.from('grievances').insert([{ message }]);
 
-  if (error) return res.status(500).json({ error });
+  const { data, error } = await supabase
+    .from('grievances')
+    .insert([{ message }]);
 
-  // Notify via email (use Resend or EmailJS here)
-  await resend.emails.send({
-    from: 'grievances@yourdomain.com',
-    to: 'you@example.com',
-    subject: 'New Grievance Submitted',
-    html: `<p>${message}</p>`,
-  });
+  if (error) {
+    console.error('Supabase error:', error);
+    return res.status(500).json({ message: 'Failed to submit grievance' });
+  }
 
-  res.status(200).json({ success: true });
+  res.status(200).json({ message: 'Grievance submitted' });
 }
