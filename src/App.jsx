@@ -27,13 +27,13 @@ function App() {
       <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md text-center">
         <h1 className="text-2xl font-bold text-pink-600 mb-4">💌 Submit Your Grievance</h1>
         {submitted ? (
-          <div className="text-green-600 font-medium">Thanks love! I'll look into it 😘</div>
+          <div className="text-green-600 font-medium">Thanks cutu! I'll look into it 😘</div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Tell me what's wrong ❤️"
+              placeholder="Tell me what's wrong bbu ❤️"
               className="p-3 rounded-lg border border-pink-200 focus:ring-2 focus:ring-pink-300 resize-none h-32"
               required
             />
